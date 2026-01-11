@@ -1,0 +1,346 @@
+<!-- checkout.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        .checkout-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+        }
+        .step-active { background: var(--primary-gradient); }
+        .step-completed { background: var(--success-gradient); }
+        .step-default { background: #e9ecef; color: #6c757d; }
+        
+        .checkout-card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .form-control-checkout {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 14px 16px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            height: 56px;
+        }
+        .form-control-checkout:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.15);
+        }
+        
+        .payment-card {
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: white;
+        }
+        .payment-card:hover, .payment-card.active {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.15);
+            background: #f8f9ff;
+        }
+        .payment-card input[type="radio"]:checked + .payment-card {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #f0fff4 0%, #e8f5e8 100%);
+        }
+        
+        .order-summary {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0fe 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(102,126,234,0.2);
+        }
+        
+        .btn-place-order {
+            background: var(--success-gradient);
+            border: none;
+            border-radius: 16px;
+            padding: 16px 32px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            height: 64px;
+            box-shadow: 0 8px 24px rgba(86,171,47,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-place-order:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 32px rgba(86,171,47,0.4);
+        }
+        
+        .address-section {
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            padding: 20px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 20px rgba(0,123,255,0.3); position: sticky; top: 0; z-index: 1020;">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3 me-4 p-2 rounded-pill" href="index.html" style="background: rgba(255,255,255,0.2); color: white;">
+                <i class="fas fa-book-open-reader me-2 text-warning"></i>BookStore
+            </a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link px-4 py-2 rounded-pill mx-1 text-white fw-semibold border border-white" href="cart.html"><i class="fas fa-arrow-left me-2"></i>Back to Cart</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-5 py-lg-6">
+        <div class="container">
+            <!-- Progress Steps -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="step-active checkout-step">1</div>
+                        <div class="flex-grow-1 mx-3">
+                            <div class="progress" style="height: 4px;">
+                                <div class="progress-bar bg-primary" style="width: 50%"></div>
+                            </div>
+                        </div>
+                        <div class="checkout-step">2</div>
+                        <div class="checkout-step">3</div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-md-4"><small class="text-muted fw-semibold">Shopping Cart</small></div>
+                        <div class="col-md-4"><small class="fw-semibold text-primary">Shipping Info</small></div>
+                        <div class="col-md-4"><small class="text-muted">Payment</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-5">
+                <!-- Billing Address -->
+                <div class="col-lg-7">
+                    <div class="checkout-card p-4 p-lg-5 mb-4">
+                        <h3 class="h4 fw-bold mb-4"><i class="fas fa-map-marker-alt text-primary me-2"></i>Billing Address</h3>
+                        
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control form-control-checkout" placeholder="Full Name *" required>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="tel" class="form-control form-control-checkout" placeholder="Contact Number *" required>
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control form-control-checkout" rows="3" placeholder="Street Address *" required></textarea>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control form-control-checkout" placeholder="City *" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control form-control-checkout" placeholder="State *" required>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control form-control-checkout" placeholder="Pincode *" required>
+                            </div>
+                            <div class="col-12">
+                                <input type="email" class="form-control form-control-checkout" placeholder="Email *" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Methods -->
+                    <div class="checkout-card p-4 p-lg-5">
+                        <h3 class="h4 fw-bold mb-4"><i class="fas fa-credit-card text-primary me-2"></i>Payment Method</h3>
+                        
+                        <div class="row g-3">
+                            <!-- Cash on Delivery -->
+                            <div class="col-md-6">
+                                <div class="payment-card position-relative">
+                                    <input type="radio" name="payment" id="cod" class="position-absolute" style="opacity: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer;" checked>
+                                    <label for="cod" class="w-100 h-100 p-0 m-0 d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-money-bill-wave fa-2x text-success"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">Cash on Delivery</h6>
+                                            <small class="text-muted">Pay when your order is delivered</small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- UPI -->
+                            <div class="col-md-6">
+                                <div class="payment-card position-relative">
+                                    <input type="radio" name="payment" id="upi" class="position-absolute" style="opacity: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer;">
+                                    <label for="upi" class="w-100 h-100 p-0 m-0 d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fab fa-google-pay fa-2x text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">UPI Payment</h6>
+                                            <small class="text-muted">Google Pay, PhonePe, Paytm</small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Card -->
+                            <div class="col-md-6">
+                                <div class="payment-card position-relative">
+                                    <input type="radio" name="payment" id="card" class="position-absolute" style="opacity: 0; width: 100%; height: 100%; z-index: 2; cursor: pointer;">
+                                    <label for="card" class="w-100 h-100 p-0 m-0 d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-credit-card fa-2x text-info"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1 fw-bold">Credit/Debit Card</h6>
+                                            <small class="text-muted">Visa, Mastercard, RuPay</small>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-5">
+                    <div class="order-summary p-4 p-lg-5 h-100">
+                        <h3 class="h4 fw-bold mb-4 pb-2 border-bottom">
+                            <i class="fas fa-receipt text-primary me-2"></i>Order Summary
+                        </h3>
+                        
+                        <div class="d-flex align-items-center mb-3 p-3 bg-white rounded-3">
+                            <img src="https://via.placeholder.com/60x80/007bff/ffffff?text=Gatsby" class="me-3 rounded" style="width:60px;height:80px;">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">The Great Gatsby</h6>
+                                <small class="text-muted">F. Scott Fitzgerald</small>
+                            </div>
+                            <div>
+                                <div class="fw-bold text-primary mb-1">$19.99</div>
+                                <small class="text-muted">Qty: 1</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-4 p-3 bg-white rounded-3">
+                            <img src="https://via.placeholder.com/60x80/f8d7da/e91e63?text=1984" class="me-3 rounded" style="width:60px;height:80px;">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">1984</h6>
+                                <small class="text-muted">George Orwell</small>
+                            </div>
+                            <div>
+                                <div class="fw-bold text-primary mb-1">$15.99</div>
+                                <small class="text-muted">Qty: 2</small>
+                            </div>
+                        </div>
+
+                        <hr class="my-3">
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="h5 fw-bold">Subtotal:</span>
+                            <span class="h5 fw-bold text-primary">$35.97</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Shipping:</span>
+                            <span class="text-success fw-bold">FREE</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="h5 fw-bold">Total:</span>
+                            <span class="h3 fw-bold text-success">$35.97</span>
+                        </div>
+
+                        <div class="d-grid mb-4">
+                            <button class="btn btn-place-order text-white shadow-lg" onclick="placeOrder()">
+                                <i class="fas fa-check-circle me-2"></i>Place Order
+                            </button>
+                        </div>
+
+                        <div class="text-center">
+                            <small class="text-muted">
+                                <i class="fas fa-shield-alt me-1 text-success"></i>
+                                Secure checkout • 30-day returns • 24/7 support
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">📚 BookStore</h5>
+                    <p class="text-white-50">Your premier online bookstore serving readers across India.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white-50 text-decoration-none">Home</a></li>
+                        <li><a href="cart.html" class="text-white-50 text-decoration-none">Cart</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="fw-bold mb-3">Contact</h6>
+                    <p class="text-white-50 mb-1">📧 info@bookstore.com</p>
+                    <p class="text-white-50">📱 +91 98765 43210</p>
+                </div>
+            </div>
+            <hr class="my-3 opacity-25">
+            <div class="text-center">
+                <p class="mb-0 text-white-50">&copy; 2026 BookStore. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Payment method selection
+        document.querySelectorAll('input[name="payment"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.payment-card').forEach(card => {
+                    card.classList.remove('active');
+                });
+                this.parentElement.classList.add('active');
+            });
+        });
+
+        function placeOrder() {
+            if (confirm('Confirm your order? This cannot be undone.')) {
+                localStorage.setItem('latestOrder', JSON.stringify({
+                    total: 35.97,
+                    items: 3,
+                    timestamp: new Date().toISOString(),
+                    status: 'confirmed'
+                }));
+                alert('🎉 Order placed successfully!\nOrder #12345\nEstimated delivery: 2-3 days');
+                window.location.href = 'payment-success.html';
+            }
+        }
+    </script>
+</body>
+</html>

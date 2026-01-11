@@ -1,0 +1,505 @@
+<!-- wishlist.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookStore - Wishlist</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .wishlist-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        transition: all 0.3s ease;
+        background: white;
+        height: 100%;
+      }
+      .wishlist-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      }
+      .book-image-wishlist {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+      .wishlist-card:hover .book-image-wishlist {
+        transform: scale(1.05);
+      }
+      .wishlist-actions {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 2;
+      }
+      .wishlist-card:hover .wishlist-actions {
+        opacity: 1;
+      }
+      .btn-wishlist-add {
+        background: var(--primary-gradient);
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        color: white;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        transition: all 0.3s ease;
+      }
+      .btn-wishlist-add:hover {
+        transform: scale(1.1) translateY(-2px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+      }
+      .btn-wishlist-remove {
+        background: #ff6b6b;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        color: white;
+        margin-top: 8px;
+      }
+      .rating-stars {
+        color: #ffc107;
+        font-size: 1.1rem;
+      }
+      .price-section {
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8f0fe 100%);
+        border-radius: 16px;
+        padding: 20px;
+      }
+      .search-wishlist {
+        max-width: 400px;
+        border-radius: 25px;
+        padding: 12px 20px;
+        border: 2px solid #e9ecef;
+      }
+      .empty-wishlist {
+        text-align: center;
+        padding: 6rem 2rem;
+        color: #6c757d;
+      }
+      .empty-wishlist i {
+        font-size: 8rem;
+        color: #dee2e6;
+        margin-bottom: 2rem;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <!-- NAVBAR -->
+    <nav
+      class="navbar navbar-expand-lg navbar-dark"
+      style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 4px 20px rgba(0, 123, 255, 0.3);
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+      "
+    >
+      <div class="container">
+        <a
+          class="navbar-brand fw-bold fs-3 me-4 p-2 rounded-pill"
+          href="index.html"
+          style="background: rgba(255, 255, 255, 0.2); color: white"
+        >
+          <i class="fas fa-book-open-reader me-2 text-warning"></i>BookStore
+        </a>
+        <button
+          class="navbar-toggler bg-white text-primary border-0 rounded px-3 py-1 me-3 shadow"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <i class="fas fa-bars fs-5"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a
+                class="nav-link px-4 py-2 rounded-pill mx-1 text-white fw-semibold border border-white"
+                href="index.html"
+                >Home</a
+              >
+            </li>
+          </ul>
+          <form class="d-flex me-4">
+            <div class="input-group rounded-pill bg-white shadow-sm">
+              <input
+                class="form-control border-0 px-3 py-2"
+                type="search"
+                placeholder="Search wishlist..."
+              />
+              <button class="btn btn-warning px-3 border-0">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
+          <ul class="navbar-nav">
+            <li class="nav-item me-2 position-relative">
+              <a
+                href="cart.html"
+                class="nav-link p-2 text-white position-relative"
+              >
+                <i class="fas fa-shopping-cart fs-4"></i>
+                <span
+                  class="badge bg-success position-absolute top-0 start-100 translate-middle"
+                  >3</span
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="py-5 py-lg-6">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+          <div>
+            <h1 class="h2 fw-bold mb-1">
+              <i class="fas fa-heart text-danger me-2"></i>My Wishlist
+            </h1>
+            <p class="text-muted mb-0">Books you've saved for later</p>
+          </div>
+          <span class="badge bg-danger fs-6 px-3 py-2">8 items</span>
+        </div>
+
+        <div class="row g-4 mb-5" id="wishlistItems">
+          <!-- Book 1 -->
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="wishlist-card position-relative h-100">
+              <div class="wishlist-actions">
+                <button
+                  class="btn btn-wishlist-add shadow"
+                  onclick="addToCart(this)"
+                  title="Add to Cart"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="btn btn-wishlist-remove shadow"
+                  onclick="removeFromWishlist(this)"
+                  title="Remove"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <img
+                src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop"
+                class="book-image-wishlist"
+                alt="Sapiens"
+              />
+              <div class="p-4">
+                <div
+                  class="d-flex justify-content-between align-items-start mb-2"
+                >
+                  <div>
+                    <h5 class="fw-bold mb-1">Sapiens</h5>
+                    <p class="text-muted mb-1 small">Yuval Noah Harari</p>
+                    <div class="rating-stars">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star-half-alt"></i>
+                      <span class="ms-2 text-muted small">(4.7k reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="price-section mt-3">
+                  <div class="h5 fw-bold text-primary mb-1">₹599</div>
+                  <div class="text-muted small text-decoration-line-through">
+                    ₹799
+                  </div>
+                  <span class="badge bg-success">25% OFF</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 2 -->
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="wishlist-card position-relative h-100">
+              <div class="wishlist-actions">
+                <button
+                  class="btn btn-wishlist-add shadow"
+                  onclick="addToCart(this)"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="btn btn-wishlist-remove shadow"
+                  onclick="removeFromWishlist(this)"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <img
+                src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop"
+                class="book-image-wishlist"
+                alt="Atomic Habits"
+              />
+              <div class="p-4">
+                <div
+                  class="d-flex justify-content-between align-items-start mb-2"
+                >
+                  <div>
+                    <h5 class="fw-bold mb-1">Atomic Habits</h5>
+                    <p class="text-muted mb-1 small">James Clear</p>
+                    <div class="rating-stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i>
+                      <span class="ms-2 text-muted small">(12k reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="price-section mt-3">
+                  <div class="h5 fw-bold text-primary mb-1">₹449</div>
+                  <div class="text-muted small text-decoration-line-through">
+                    ₹599
+                  </div>
+                  <span class="badge bg-success">25% OFF</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 3 -->
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="wishlist-card position-relative h-100">
+              <div class="wishlist-actions">
+                <button
+                  class="btn btn-wishlist-add shadow"
+                  onclick="addToCart(this)"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="btn btn-wishlist-remove shadow"
+                  onclick="removeFromWishlist(this)"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <img
+                src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop"
+                class="book-image-wishlist"
+                alt="Clean Code"
+              />
+              <div class="p-4">
+                <div
+                  class="d-flex justify-content-between align-items-start mb-2"
+                >
+                  <div>
+                    <h5 class="fw-bold mb-1">Clean Code</h5>
+                    <p class="text-muted mb-1 small">Robert C. Martin</p>
+                    <div class="rating-stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="far fa-star"></i>
+                      <span class="ms-2 text-muted small">(3.2k reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="price-section mt-3">
+                  <div class="h5 fw-bold text-primary mb-1">₹1,199</div>
+                  <span class="badge bg-danger">New Release</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Add more books as needed -->
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="wishlist-card position-relative h-100">
+              <div class="wishlist-actions">
+                <button
+                  class="btn btn-wishlist-add shadow"
+                  onclick="addToCart(this)"
+                >
+                  <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button
+                  class="btn btn-wishlist-remove shadow"
+                  onclick="removeFromWishlist(this)"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <img
+                src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=300&fit=crop"
+                class="book-image-wishlist"
+                alt="The Psychology of Money"
+              />
+              <div class="p-4">
+                <div
+                  class="d-flex justify-content-between align-items-start mb-2"
+                >
+                  <div>
+                    <h5 class="fw-bold mb-1">The Psychology of Money</h5>
+                    <p class="text-muted mb-1 small">Morgan Housel</p>
+                    <div class="rating-stars">
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i><i class="fas fa-star"></i
+                      ><i class="fas fa-star"></i>
+                      <span class="ms-2 text-muted small">(8.9k reviews)</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="price-section mt-3">
+                  <div class="h5 fw-bold text-primary mb-1">₹399</div>
+                  <div class="text-muted small text-decoration-line-through">
+                    ₹499
+                  </div>
+                  <span class="badge bg-success">20% OFF</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="row">
+          <div class="col-md-3 mb-4">
+            <div
+              class="text-center p-5 bg-white rounded-3 shadow-sm border-start border-primary border-5"
+            >
+              <i class="fas fa-heart fa-4x text-danger mb-3"></i>
+              <h3 class="fw-bold text-danger mb-2">8</h3>
+              <p class="text-muted mb-0 h6">Total Wishlist Items</p>
+            </div>
+          </div>
+          <div class="col-md-3 mb-4">
+            <div
+              class="text-center p-5 bg-white rounded-3 shadow-sm border-start border-success border-5"
+            >
+              <i class="fas fa-shopping-cart fa-4x text-success mb-3"></i>
+              <h3 class="fw-bold text-success mb-2">0</h3>
+              <p class="text-muted mb-0 h6">In Cart from Wishlist</p>
+            </div>
+          </div>
+          <div class="col-md-6 mb-4">
+            <div
+              class="bg-white rounded-3 shadow-sm p-4 h-100 d-flex align-items-center"
+            >
+              <div>
+                <h6 class="fw-bold text-primary mb-2">💡 Quick Tip</h6>
+                <p class="text-muted mb-3">
+                  Add your favorite books to cart directly from wishlist. Items
+                  stay saved across sessions!
+                </p>
+                <a href="cart.html" class="btn btn-outline-primary"
+                  >View Cart</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-auto">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <h5 class="fw-bold mb-3">📚 BookStore</h5>
+            <p class="text-white-50">
+              Your premier online bookstore serving readers across India.
+            </p>
+          </div>
+          <div class="col-md-4 mb-4">
+            <h6 class="fw-bold mb-3">Quick Links</h6>
+            <ul class="list-unstyled">
+              <li>
+                <a href="index.html" class="text-white-50 text-decoration-none"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a href="cart.html" class="text-white-50 text-decoration-none"
+                  >Cart</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h6 class="fw-bold mb-3">Contact</h6>
+            <p class="text-white-50 mb-1">📧 info@bookstore.com</p>
+            <p class="text-white-50">📱 +91 98765 43210</p>
+          </div>
+        </div>
+        <hr class="my-3 opacity-25" />
+        <div class="text-center">
+          <p class="mb-0 text-white-50">
+            &copy; 2026 BookStore. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function addToCart(button) {
+        button.innerHTML = '<i class="fas fa-check"></i>';
+        button.style.background = "#28a745";
+        setTimeout(() => {
+          alert("✅ Added to cart! Check your cart →");
+          button.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+          button.style.background = "";
+          window.location.href = "cart.html";
+        }, 800);
+      }
+
+      function removeFromWishlist(button) {
+        if (confirm("Remove from wishlist?")) {
+          button.closest(".wishlist-card").style.transform = "scale(0.95)";
+          button.closest(".wishlist-card").style.opacity = "0";
+          setTimeout(() => {
+            button.closest(".col-xl-3, .col-lg-4, .col-md-6").remove();
+            updateWishlistCount();
+          }, 300);
+        }
+      }
+
+      function updateWishlistCount() {
+        const count = document.querySelectorAll("#wishlistItems > div").length;
+        document.querySelector(".badge.bg-danger").textContent = count;
+      }
+
+      // Smooth hover animations
+      document.querySelectorAll(".wishlist-card").forEach((card) => {
+        card.addEventListener("mouseenter", function () {
+          this.style.transform = "translateY(-8px)";
+        });
+        card.addEventListener("mouseleave", function () {
+          this.style.transform = "translateY(0)";
+        });
+      });
+    </script>
+  </body>
+</html>

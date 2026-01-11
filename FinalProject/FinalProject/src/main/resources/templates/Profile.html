@@ -1,0 +1,397 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        .profile-card {
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            background: white;
+        }
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            object-fit: cover;
+        }
+        .nav-tabs-custom .nav-link {
+            border: none;
+            border-radius: 16px 16px 0 0;
+            padding: 16px 24px;
+            font-weight: 500;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .nav-tabs-custom .nav-link.active {
+            color: #667eea;
+            background: #f8f9ff;
+            border-bottom-color: #667eea;
+        }
+        .form-control-profile {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 14px 16px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            height: 56px;
+        }
+        .form-control-profile:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102,126,234,0.1);
+            transform: translateY(-1px);
+        }
+        .address-card {
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: white;
+        }
+        .address-card:hover, .address-card.active {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.15);
+        }
+        .payment-method-card {
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f0fe 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(102,126,234,0.2);
+            padding: 24px;
+            text-align: center;
+        }
+        .btn-save {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 28px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 4px 20px rgba(0,123,255,0.3); position: sticky; top: 0; z-index: 1020;">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-3 me-4 p-2 rounded-pill" href="index.html" style="background: rgba(255,255,255,0.2); color: white;">
+                <i class="fas fa-book-open-reader me-2 text-warning"></i>BookStore
+            </a>
+            <button class="navbar-toggler bg-white text-primary border-0 rounded px-3 py-1 me-3 shadow" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars fs-5"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link px-4 py-2 rounded-pill mx-1 text-white fw-semibold border border-white" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link px-4 py-2 rounded-pill mx-1 text-white fw-semibold border border-white active" href="profile.html">Profile</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="py-5 py-lg-6">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Profile Section -->
+                <div class="col-lg-8">
+                    <div class="profile-card p-5 mb-5">
+                        <div class="text-center mb-5">
+                            <img src="https://via.placeholder.com/120x120/667eea/ffffff?text=JD" class="profile-avatar mx-auto mb-4" alt="Profile">
+                            <h2 class="h3 fw-bold mb-2" id="profileName">John Doe</h2>
+                            <p class="text-muted mb-1" id="profileEmail">john.doe@example.com</p>
+                            <span class="badge bg-primary">Verified Account</span>
+                        </div>
+
+                        <!-- Profile Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-custom mb-4 justify-content-center" id="profileTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button">Personal Info</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button">Addresses</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button">Payment Methods</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="profileTabContent">
+                            <!-- Personal Info -->
+                            <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                                <form id="personalForm">
+                                    <div class="row g-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-semibold">Full Name</label>
+                                            <input type="text" class="form-control form-control-profile" value="John Doe" id="editName">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-semibold">Phone Number</label>
+                                            <input type="tel" class="form-control form-control-profile" value="+91 98765 43210" id="editPhone">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-semibold">Email</label>
+                                            <input type="email" class="form-control form-control-profile" value="john.doe@example.com" id="editEmail">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-semibold">Date of Birth</label>
+                                            <input type="date" class="form-control form-control-profile" value="1995-03-15">
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label fw-semibold">About Me</label>
+                                            <textarea class="form-control form-control-profile" rows="4" placeholder="Tell us about yourself...">Avid reader and computer science student from Nārnaund, Haryana. Passionate about full-stack development and MERN stack projects.</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="text-end mt-4">
+                                        <button type="submit" class="btn btn-save px-5">
+                                            <i class="fas fa-save me-2"></i>Save Changes
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Addresses -->
+                            <div class="tab-pane fade" id="address" role="tabpanel">
+                                <div class="row g-4">
+                                    <!-- Primary Address -->
+                                    <div class="col-lg-6">
+                                        <div class="address-card active" onclick="selectAddress(this)">
+                                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                                <div>
+                                                    <h6 class="fw-bold mb-1">🏠 Home (Primary)</h6>
+                                                    <p class="mb-1 small text-muted">John Doe<br>Nārnaund, Haryana 124001<br>India</p>
+                                                </div>
+                                                <i class="fas fa-check-circle text-success fs-5"></i>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-primary btn-sm">Edit</button>
+                                                <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Work Address -->
+                                    <div class="col-lg-6">
+                                        <div class="address-card" onclick="selectAddress(this)">
+                                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                                <div>
+                                                    <h6 class="fw-bold mb-1">🏢 University</h6>
+                                                    <p class="mb-1 small text-muted">Student Dormitory<br>Hisar, Haryana 125001<br>India</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-primary btn-sm">Edit</button>
+                                                <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Add New Address -->
+                                    <div class="col-12">
+                                        <div class="address-card border-dashed p-4 text-center" style="border-style: dashed;">
+                                            <i class="fas fa-plus-circle fa-3x text-muted mb-3"></i>
+                                            <h6 class="text-muted mb-2">Add New Address</h6>
+                                            <button class="btn btn-outline-primary">+ Add Address</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Methods -->
+                            <div class="tab-pane fade" id="payment" role="tabpanel">
+                                <div class="row g-4">
+                                    <!-- UPI -->
+                                    <div class="col-md-6">
+                                        <div class="payment-method-card">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <div>
+                                                    <h6 class="fw-bold mb-1"><i class="fab fa-google-pay text-primary me-2"></i>UPI</h6>
+                                                    <p class="mb-0 small text-muted">john.doe@paytm</p>
+                                                </div>
+                                                <span class="badge bg-success">Default</span>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-primary btn-sm flex-grow-1">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Card -->
+                                    <div class="col-md-6">
+                                        <div class="payment-method-card">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <div>
+                                                    <h6 class="fw-bold mb-1">
+                                                        <i class="fas fa-credit-card text-info me-2"></i>**** **** **** 1234
+                                                    </h6>
+                                                    <p class="mb-0 small text-muted">Expires 12/28</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <button class="btn btn-outline-primary btn-sm flex-grow-1">Edit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Add Payment Method -->
+                                    <div class="col-12">
+                                        <div class="payment-method-card border-dashed p-4 text-center text-muted" style="border-style: dashed;">
+                                            <i class="fas fa-plus-circle fa-2x mb-3"></i>
+                                            <h6 class="mb-2">Add Payment Method</h6>
+                                            <p class="mb-3">Add UPI, cards, or other payment methods</p>
+                                            <button class="btn btn-outline-primary">+ Add New Method</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats & Quick Actions -->
+                <div class="col-lg-4">
+                    <!-- Order Stats -->
+                    <div class="stats-card mb-4 p-4">
+                        <h6 class="fw-bold mb-4 text-primary">Recent Activity</h6>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Total Orders</span>
+                            <span class="fw-bold h5 text-primary">5</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Total Spent</span>
+                            <span class="fw-bold h5 text-success">₹4,250</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Member Since</span>
+                            <span class="fw-bold text-muted">Dec 2025</span>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-3 shadow-sm p-4 mb-4">
+                        <h6 class="fw-bold mb-4 text-primary">Quick Actions</h6>
+                        <div class="list-group list-group-flush">
+                            <a href="orders.html" class="list-group-item list-group-item-action d-flex align-items-center px-0 py-3">
+                                <i class="fas fa-boxes me-3 text-primary fs-5"></i>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">My Orders</div>
+                                    <small class="text-muted">View order history</small>
+                                </div>
+                                <i class="fas fa-chevron-right text-muted"></i>
+                            </a>
+                            <a href="wishlist.html" class="list-group-item list-group-item-action d-flex align-items-center px-0 py-3">
+                                <i class="fas fa-heart me-3 text-danger fs-5"></i>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">Wishlist</div>
+                                    <small class="text-muted">2 saved items</small>
+                                </div>
+                                <i class="fas fa-chevron-right text-muted"></i>
+                            </a>
+                            <a href="/profile" class="list-group-item list-group-item-action d-flex align-items-center px-0 py-3" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-3 text-danger fs-5"></i>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold text-danger">Logout</div>
+                                </div>
+                                <i class="fas fa-chevron-right text-muted"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold mb-3">📚 BookStore</h5>
+                    <p class="text-white-50">Your premier online bookstore serving readers across India.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-white-50 text-decoration-none">Home</a></li>
+                        <li><a href="orders.html" class="text-white-50 text-decoration-none">Orders</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="fw-bold mb-3">Contact</h6>
+                    <p class="text-white-50 mb-1">📧 info@bookstore.com</p>
+                    <p class="text-white-50">📱 +91 98765 43210</p>
+                </div>
+            </div>
+            <hr class="my-3 opacity-25">
+            <div class="text-center">
+                <p class="mb-0 text-white-50">&copy; 2026 BookStore. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load user data from localStorage
+        const user = JSON.parse(localStorage.getItem('user')) || {name: 'John Doe', email: 'john.doe@example.com'};
+        document.getElementById('profileName').textContent = user.name || 'John Doe';
+        document.getElementById('profileEmail').textContent = user.email || 'john.doe@example.com';
+        document.getElementById('editName').value = user.name || 'John Doe';
+        document.getElementById('editEmail').value = user.email || 'john.doe@example.com';
+
+        // Personal info form
+        document.getElementById('personalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const updatedUser = {
+                name: document.getElementById('editName').value,
+                email: document.getElementById('editEmail').value,
+                phone: document.getElementById('editPhone').value
+            };
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+            document.getElementById('profileName').textContent = updatedUser.name;
+            document.getElementById('profileEmail').textContent = updatedUser.email;
+            alert('✅ Profile updated successfully!');
+        });
+
+        // Address selection
+        function selectAddress(card) {
+            document.querySelectorAll('.address-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('user');
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>
+
