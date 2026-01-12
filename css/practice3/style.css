@@ -1,0 +1,40 @@
+/* div{
+    height: 100px;
+    width: 100px;
+    background-color: green;
+    border-radius: 50%;
+    text-align: center;
+    
+    
+} */
+
+.traffic{
+    width: 150px;
+    padding-left: 28px;
+    background-color: none;
+    border:10px solid black ;
+}
+
+.red{
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    border-radius: 50%;
+    border: 5px solid black;
+}
+
+.yello{
+    height: 100px;
+    width: 100px;
+    background-color: yellow;
+    border-radius: 50%;
+    border: 5px solid black;
+}
+
+.green{
+    height: 100px;
+    width: 100px;
+    background-color: green;
+    border-radius: 50%;
+    border: 5px solid black;
+}

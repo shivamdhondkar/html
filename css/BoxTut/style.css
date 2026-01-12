@@ -1,0 +1,26 @@
+div{
+    height: 21px;
+    width: 59px;
+    background-color: black;
+    color: white;
+    border: 1.5px;
+    border-style: solid;
+    border-color: brown;
+}
+
+.bt{
+    height: 50px;
+    width: 100px;
+    background-color: black;
+    color: aquamarine;
+    border: 4px solid red;
+    border-radius: 20px;
+    text-transform: capitalize;
+    text-decoration: underline;
+
+    /* padding is for internal space 
+    padding = top, right, bottom, left;  clockwise direction
+    margin is for external space 
+    margin = top, right, bottom, left;
+    */
+}
