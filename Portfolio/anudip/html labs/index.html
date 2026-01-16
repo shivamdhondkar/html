@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Income Tax Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Income Tax Calculator</h2>
+
+        <p class="note">
+            Revised income tax slabs under new tax regime for FY 2024-25 (AY 2025-26)
+        </p>
+
+        <table>
+            <tr>
+                <th>Income tax slabs under new tax regime</th>
+                <th>Income tax rates under new tax regime</th>
+            </tr>
+            <tr><td>0 to Rs. 3 lakh</td><td>Nil</td></tr>
+            <tr><td>Rs. 3 lakh to Rs. 6 lakh</td><td>5%</td></tr>
+            <tr><td>Rs. 6 lakh to Rs. 9 lakh</td><td>10%</td></tr>
+            <tr><td>Rs. 9 lakh to Rs. 12 lakh</td><td>15%</td></tr>
+            <tr><td>Rs. 12 lakh to Rs. 15 lakh</td><td>20%</td></tr>
+            <tr><td>Income above Rs. 15 lakh</td><td>30%</td></tr>
+        </table>
+
+        <h3>Annual Income: New Slab</h3>
+
+        <input type="number" id="income" placeholder="Enter your annual income">
+
+        <button onclick="calculateTax()">Calculate Tax</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

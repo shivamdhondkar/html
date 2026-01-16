@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Webpage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Welcome to my webpage</h1>
+
+    <a href="https://anudip.org/">Visit Anudip Page</a>
+    <br/><br/>
+
+    <button id="btn">Click</button>
+
+    <span>hello</span>
+
+    <p id="par1" style="background-color: black; color: aliceblue;">Hello</p>
+    <p id="par2">Hello2</p>
+    <p id="par3">Hello3</p>
+    <div id="par4" class="p4">Hello4</div>
+
+    <br/>
+
+    <textarea id="ta1"></textarea>
+    <textarea id="ta2"></textarea>
+    <textarea id="ta3"></textarea>
+
+    <br/>
+
+    <button id="btn1">change</button>
+
+    <script>
+        const button = document.getElementById("btn");
+
+        const p1 = document.getElementById("par1");
+        const p2 = document.getElementById("par2");
+        const p3 = document.getElementById("par3");
+        const p4 = document.getElementById("par4");
+
+        button.addEventListener("click", () => {
+            p1.style.color = "red";
+            p2.style.color = "blue";
+            p3.style.color = "green";
+            p4.style.color = "orange";
+        });
+        const button1 = document.getElementById("btn1");
+
+        const t1 = document.getElementById("ta1");
+        const t2 = document.getElementById("ta2");
+        const t3 = document.getElementById("ta3");
+
+        button1.addEventListener("click", () => {
+            const num1 = Number(t1.value);
+            const num2 = Number(t2.value);
+            const num3 = num1 + num2;
+        
+            t3.value = num3;
+            let name = "Shivam";
+            alert(name);
+        });
+
+        let arr = [1,2,3,4,5];
+        for(let i=0;i<arr.length;i++){
+            console.log(arr[i]);
+        }
+    
+    </script>
+</body>
+</html>
