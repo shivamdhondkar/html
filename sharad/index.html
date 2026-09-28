@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharad ka Deepika ke liye — Ek Sachchi Baat</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Poppins',sans-serif;overflow-x:hidden;}
+canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+.wrap{position:relative;z-index:1;}
+.page{display:none;min-height:100vh;padding:40px 28px 32px;flex-direction:column;align-items:center;justify-content:center;animation:fadeUp 0.9s ease;}
+.page.active{display:flex;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* page backgrounds */
+#p0{background:linear-gradient(135deg,#e8f4fd,#f0f8ff,#e6f0fa);}
+#p1{background:linear-gradient(135deg,#f4f5f8,#eef2f7);}
+#p2{background:linear-gradient(135deg,#f0f4f8,#e8eef5);}
+#p3{background:linear-gradient(135deg,#edf8f0,#daf0e8);}
+#p4{background:linear-gradient(135deg,#fdf6ee,#f8f0e8);}
+#p5{background:linear-gradient(135deg,#f0f0f8,#e8eaf5);}
+#p6{background:linear-gradient(135deg,#f5f0f8,#ede8f5);}
+#p7{background:linear-gradient(135deg,#eef8f5,#e4f5ef);}
+#p8{background:linear-gradient(135deg,#e8f0f8,#dce8f4);}
+#p9{background:linear-gradient(135deg,#f8f0e8,#f0e8f8);}
+#p10{background:linear-gradient(135deg,#edf2f8,#e0eaf6);}
+
+.card{background:rgba(255,255,255,0.82);border:0.5px solid rgba(160,200,230,0.35);border-radius:18px;padding:22px 26px;max-width:520px;width:100%;margin-bottom:18px;backdrop-filter:blur(8px);}
+.card p{font-size:14px;color:#2c4a6a;line-height:1.9;}
+.card .hl{font-size:14.5px;color:#2a5298;font-weight:500;margin-bottom:8px;}
+.tag{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#7a9bb5;margin-bottom:10px;}
+.ptitle{font-size:24px;font-weight:600;color:#1e3a5f;text-align:center;line-height:1.35;margin-bottom:14px;}
+.psub{font-size:13px;color:#5a7a9b;text-align:center;margin-bottom:20px;line-height:1.75;}
+.btn-main{background:linear-gradient(135deg,#4a90d9,#6ab0f0);color:#fff;border:none;border-radius:50px;padding:13px 34px;font-size:14px;font-family:'Poppins',sans-serif;font-weight:500;cursor:pointer;transition:transform 0.2s;box-shadow:0 4px 18px rgba(74,144,217,0.3);}
+.btn-main:hover{transform:translateY(-2px);}
+.btn-nav{background:rgba(255,255,255,0.8);border:0.5px solid rgba(100,160,210,0.35);border-radius:50px;padding:10px 28px;font-size:13px;font-family:'Poppins',sans-serif;font-weight:500;color:#4a7a9b;cursor:pointer;transition:all 0.2s;}
+.btn-nav:hover{background:rgba(74,144,217,0.12);color:#2a5298;}
+.nav-row{display:flex;gap:10px;margin-top:8px;}
+.dots{display:flex;gap:5px;margin-bottom:18px;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(74,144,217,0.2);transition:all 0.3s;}
+.dot.on{background:#4a90d9;width:16px;border-radius:2.5px;}
+.hindi{font-family:'Noto Sans Devanagari','Poppins',sans-serif;font-size:16px;color:#1a3a5a;line-height:2.2;font-weight:400;text-align:center;}
+.shayari-card{background:rgba(255,255,255,0.75);border-left:3px solid #7ab0d8;border-radius:0 14px 14px 0;padding:18px 22px;max-width:500px;width:100%;margin-bottom:12px;}
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:500px;width:100%;margin-bottom:18px;}
+.gitem{border-radius:12px;overflow:hidden;position:relative;}
+.gimg{width:100%;height:140px;object-fit:cover;display:block;transition:transform 0.45s ease;}
+.gitem:hover .gimg{transform:scale(1.07);}
+.gph{width:100%;height:140px;display:flex;align-items:center;justify-content:center;font-size:13px;color:#4a7a9b;font-weight:500;background:linear-gradient(135deg,#d8eaf8,#c0d4ec);transition:transform 0.4s;}
+.gitem:hover .gph{transform:scale(1.04);}
+.gcap{position:absolute;bottom:0;left:0;right:0;background:rgba(20,50,80,0.55);color:#fff;font-size:11px;padding:5px 9px;text-align:center;}
+.reveal-btn{background:rgba(255,255,255,0.8);border:1px solid rgba(74,144,217,0.3);border-radius:12px;padding:13px 26px;font-size:13px;font-family:'Poppins',sans-serif;color:#3a6ea8;cursor:pointer;transition:all 0.3s;width:100%;max-width:480px;text-align:center;font-style:italic;font-weight:500;}
+.reveal-btn:hover{background:rgba(74,144,217,0.08);}
+.rmsg{background:rgba(255,255,255,0.78);border-radius:14px;padding:20px 24px;max-width:480px;width:100%;border:0.5px solid rgba(120,170,220,0.28);animation:fadeUp 0.7s ease;}
+.rmsg p{font-size:14px;color:#1e3a5a;line-height:1.9;font-style:italic;}
+.game-area{background:rgba(255,255,255,0.82);border-radius:18px;padding:22px;max-width:500px;width:100%;margin-bottom:18px;}
+.game-score{font-size:13px;color:#5a7a9b;margin-bottom:10px;text-align:center;}
+.balloon{font-size:38px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;margin:6px;animation:floatUp 2.5s ease-in-out infinite;border-radius:50%;padding:6px;}
+@keyframes floatUp{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.balloon:hover{transform:scale(1.15)!important;}
+.words-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0;}
+.word-tile{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s;border:1.5px solid transparent;}
+.word-tile:hover{transform:translateY(-2px);}
+.word-tile.happy{background:#eaf8ee;color:#2a6a3a;border-color:#a8d8b0;}
+.word-tile.sad{background:#fce8e8;color:#6a2a2a;border-color:#d8a8a8;}
+.word-tile.sel-h{background:#2a8a4a;color:#fff;}
+.word-tile.sel-s{background:#d84040;color:#fff;}
+.mood-bar-wrap{background:#e8eef5;border-radius:50px;height:12px;width:100%;margin:12px 0;}
+.mood-bar{height:12px;border-radius:50px;background:linear-gradient(90deg,#7ab8f0,#4ad09a);transition:width 0.6s ease;}
+.ic{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
+.pnum{font-size:10px;color:#8aabb5;letter-spacing:1.5px;margin-bottom:4px;}
+.closing-ic{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#dce8f5,#c8d8ea);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:20px;}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+<div class="wrap">
+
+<!-- Page 0: Welcome -->
+<div class="page active" id="p0">
+  <div class="dots" id="d0"></div>
+  <div class="ic" style="background:linear-gradient(135deg,#d8eaf8,#bfd4f0);">🌸</div>
+  <div class="tag">ek sachchi baat</div>
+  <div class="ptitle">Kuch kehna chahta hoon — seedha dil se.</div>
+  <div class="psub">Yeh website sirf ek cheez ke liye bani hai —<br>jo words akele nahi keh sakte, woh yahan hai.</div>
+  <div class="card"><p>Deepika, yeh koi dramatic gesture nahi hai. Yeh seedha aur sachcha hai. Agar comfortable ho, toh thoda time lo. Har page mein kuch genuine hai — koi script nahi, sirf sach.</p></div>
+  <button class="btn-main" onclick="goTo(1)">Message Kholein →</button>
+</div>
+
+<!-- Page 1: Responsibility -->
+<div class="page" id="p1">
+  <div class="dots" id="d1"></div>
+  <div class="pnum">01 / 11</div>
+  <div class="ic" style="background:linear-gradient(135deg,#dce8f0,#c8d8e8);">🙏</div>
+  <div class="tag">zimmedaari</div>
+  <div class="ptitle">Galti maine ki — bina kisi bahane ke maan raha hoon.</div>
+  <div class="card">
+    <div class="hl">Koi justification nahi. Koi condition nahi.</div>
+    <p>Jo main ne kaha woh galat tha — aur main jaanta hoon. Main thoda bada hoon, isliye mature rehna meri zimmedaari zyada thi. Lekin main waise react kiya jis par mujhe fakhr nahi.</p><br>
+    <p>Galti ko bina bahane ke poori tarah maanna — yahi pehla qadam hai usse sach mein sahi karne ka.</p>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(0)">← Wapas</button><button class="btn-nav" onclick="goTo(2)">Aage →</button></div>
+</div>
+
+<!-- Page 2: Reflection -->
+<div class="page" id="p2">
+  <div class="dots" id="d2"></div>
+  <div class="pnum">02 / 11</div>
+  <div class="ic" style="background:linear-gradient(135deg,#dce4f0,#ccd4e8);">💭</div>
+  <div class="tag">soch-vichar</div>
+  <div class="ptitle">Gusse ne bol diya. Baad mein pachtawa aaya.</div>
+  <div class="card">
+    <p>Us waqt gussa samajh se pehle bola. Jo kahna chahiye nahi tha, woh nikal gaya. Lekin baad mein jo hua woh sirf pachtawa nahi — woh genuinely samajhna tha ki kya galat hua aur kyun.</p><br>
+    <p>Tum padhai aur apne future pe seriously focused ho. Uss insaan ko patience chahiye, negativity nahi — khaaskar us insaan se jo better jaanta tha.</p>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(1)">← Wapas</button><button class="btn-nav" onclick="goTo(3)">Aage →</button></div>
+</div>
+
+<!-- Page 3: Respect for studies -->
+<div class="page" id="p3">
+  <div class="dots" id="d3"></div>
+  <div class="pnum">03 / 11</div>
+  <div class="ic" style="background:linear-gradient(135deg,#d8f0e0,#c4e8d0);">📚</div>
+  <div class="tag">tumhara respect</div>
+  <div class="ptitle">Tumhari mehnat deserves sirf encouragement.</div>
+  <div class="card">
+    <div class="hl">Yeh page tumhare liye hai — meri maafi ke liye nahi.</div>
+    <p>Tum sincerely apne future ke liye kaam kar rahe ho. Yeh discipline aur focus sab nahi chunte ya maintain karte. Itni mehnat karne wale students ke aas-paas aise log hone chahiye jo uplift karein — nahi ki neeche girayein.</p><br>
+    <p>Mujhe woh insaan hona chahiye tha. Yeh mujhe genuinely afsos hai.</p>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(2)">← Wapas</button><button class="btn-nav" onclick="goTo(4)">Aage →</button></div>
+</div>
+
+<!-- Page 4: Family values -->
+<div class="page" id="p4">
+  <div class="dots" id="d4"></div>
+  <div class="pnum">04 / 11</div>
+  <div class="ic" style="background:linear-gradient(135deg,#f5ede0,#ecdac8);">🏠</div>
+  <div class="tag">family aur values</div>
+  <div class="ptitle">Main emotional ho gaya tha. Baad mein samajh aaya ki woh galat tha.</div>
+  <div class="card">
+    <p>Jab baat mein family ka zikr hua, main tez react kar gaya — aur woh react karna misplaced tha. Apni feelings ki wajah se doosre ke saath harsh rehna meri values ke against tha.</p><br>
+    <p>Auraton aur family ka respect — yeh main sachchi tarah maanta hoon. Isliye is pal ko theek karna zaroori laga — kyunki mera reaction jo main actually believe karta hoon, usse contradict karta tha.</p>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(3)">← Wapas</button><button class="btn-nav" onclick="goTo(5)">Aage →</button></div>
+</div>
+
+<!-- Page 5: Gallery -->
+<div class="page" id="p5">
+  <div class="dots" id="d5"></div>
+  <div class="pnum">05 / 11</div>
+  <div class="tag">chhoti yaadon ki jhalak</div>
+  <div class="ptitle">Kuch pal — sachchi yaad ke saath.</div>
+  <div class="gallery-grid">
+    <div class="gitem">
+      <img src="pic1.jpg" class="gimg" alt="Pehli mulaqat" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+      <div class="gph" style="display:none;">📷 pic1</div>
+      <div class="gcap">Pehli mulaqat</div>
+    </div>
+    <div class="gitem">
+      <img src="pic2.jpg" class="gimg" alt="Saadhi baatein" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+      <div class="gph" style="display:none;">📷 pic2</div>
+      <div class="gcap">Saadhi baatein</div>
+    </div>
+    <div class="gitem">
+      <img src="pic3.jpg" class="gimg" alt="Mehnat ka respect" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+      <div class="gph" style="display:none;">📷 pic3</div>
+      <div class="gcap">Mehnat ka respect</div>
+    </div>
+    <div class="gitem">
+      <img src="pic4.jpg" class="gimg" alt="Aage ki safalta" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+      <div class="gph" style="display:none;">📷 pic4</div>
+      <div class="gcap">Aage ki safalta</div>
+    </div>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(4)">← Wapas</button><button class="btn-nav" onclick="goTo(6)">Aage →</button></div>
+</div>
+
+<!-- Page 6: Hindi Shayari -->
+<div class="page" id="p6">
+  <div class="dots" id="d6"></div>
+  <div class="pnum">06 / 11</div>
+  <div class="ic" style="background:linear-gradient(135deg,#ede0f5,#dac8ec);">✍️</div>
+  <div class="tag">hindi shayari — dil ki baat</div>
+  <div class="ptitle">Shayari mein keh deta hoon jo bolne mein mushkil tha</div>
+  <div class="shayari-card"><div class="hindi" id="sh1"></div></div>
+  <div class="shayari-card"><div class="hindi" id="sh2"></div></div>
+  <div class="shayari-card"><div class="hindi" id="sh3"></div></div>
+  <div class="shayari-card"><div class="hindi" id="sh4"></div></div>
+  <div class="nav-row" style="margin-top:14px;"><button class="btn-nav" onclick="goTo(5)">← Wapas</button><button class="btn-nav" onclick="goTo(7)">Aage →</button></div>
+</div>
+
+<!-- Page 7: One honest thing -->
+<div class="page" id="p7">
+  <div class="dots" id="d7"></div>
+  <div class="pnum">07 / 11</div>
+  <div class="ic" style="background:linear-gradient(135deg,#d8f0ea,#c4e8df);">🔑</div>
+  <div class="tag">ek sachchi baat</div>
+  <div class="ptitle">Seedha kehna chahta hoon — ek cheez.</div>
+  <div id="rev-area" style="max-width:480px;width:100%;margin-bottom:18px;text-align:center;">
+    <button class="reveal-btn" onclick="revealMsg()">Ek sachchi baat →</button>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(6)">← Wapas</button><button class="btn-nav" onclick="goTo(8)">Aage →</button></div>
+</div>
+
+<!-- Page 8: Balloon Game -->
+<div class="page" id="p8">
+  <div class="dots" id="d8"></div>
+  <div class="pnum">08 / 11</div>
+  <div class="tag">mood game — udaas se khush</div>
+  <div class="ptitle">Balloon Phodo — Stress Bhagao! 🎈</div>
+  <div class="psub">Saare balloons phodo aur apna mood lift karo!</div>
+  <div class="game-area" id="balloon-game">
+    <div class="game-score">Score: <span id="bscore">0</span> &nbsp;|&nbsp; Baaki: <span id="bleft">8</span></div>
+    <div id="balloon-field" style="text-align:center;min-height:170px;padding:10px 0;"></div>
+    <div id="balloon-msg" style="text-align:center;font-size:15px;color:#2a6a4a;font-weight:500;min-height:28px;margin-top:8px;"></div>
+    <div style="text-align:center;margin-top:12px;"><button class="btn-nav" onclick="initBalloonGame()">Reset Game</button></div>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(7)">← Wapas</button><button class="btn-nav" onclick="goTo(9)">Aage →</button></div>
+</div>
+
+<!-- Page 9: Word Game -->
+<div class="page" id="p9">
+  <div class="dots" id="d9"></div>
+  <div class="pnum">09 / 11</div>
+  <div class="tag">word game — positivity chunno</div>
+  <div class="ptitle">Khushi wale words chunke mood theek karo! 😊</div>
+  <div class="psub">Sirf positive / happy words select karo — mood 100% tak pahuncho!</div>
+  <div class="game-area">
+    <div class="game-score">Mood Level: <span id="mlevel">0</span>%</div>
+    <div class="mood-bar-wrap"><div class="mood-bar" id="mbar" style="width:0%"></div></div>
+    <div class="words-grid" id="wgrid"></div>
+    <div id="word-result" style="text-align:center;font-size:14px;min-height:28px;margin-top:8px;"></div>
+    <div style="text-align:center;margin-top:12px;"><button class="btn-nav" onclick="initWordGame()">Dobara Khelo</button></div>
+  </div>
+  <div class="nav-row"><button class="btn-nav" onclick="goTo(8)">← Wapas</button><button class="btn-nav" onclick="goTo(10)">Aage →</button></div>
+</div>
+
+<!-- Page 10: Closing -->
+<div class="page" id="p10">
+  <div class="dots" id="d10"></div>
+  <div class="closing-ic">🌱</div>
+  <div class="tag">koi umeed nahi, sirf izzat</div>
+  <div class="ptitle">Yeh pressure nahi — yeh dil ki duaayein hain.</div>
+  <div class="card">
+    <div class="hl">Tum koi jawab dene ke liye bound nahi ho.</div>
+    <p>Yeh website isliye nahi bani ki tumhe kuch mehsoos karwaya jaaye ya kisi nateeje ki taraf push kiya jaaye. Yeh isliye bani kyunki main nahi chahta tha ki meri galti tumhari zindagi mein akhiri yaad ban jaaye.</p><br>
+    <p>Yeh padhne ke baad jo bhi tumhara reaction ho — woh bilkul sahi hai. Main bas sachchi maafi dena chahta tha aur tumhare liye achaai ki dua karna chahta tha — bina kisi shart ke.</p><br>
+    <p style="color:#4a7a9b;font-weight:500;">Deepika, tumhara har sapna poora ho. Aage bahut roshan raasta hai. 🌸</p>
+  </div>
+  <button class="btn-nav" onclick="goTo(0)" style="margin-top:6px;">← Phir se shuru se padho</button>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+const TOTAL=11;
+const SHAYARI=[
+  'गुस्सा बोल देता है, समझ चुप रहती है,\nपर ज़ख्म जो दे जाता है, याद वही रहती है।',
+  'जो ग़लती माने खुले दिल से,\nउसकी इज़्ज़त बढ़ती है हर पल से।',
+  'पढ़ाई की राह पर चलने वाले को,\nचाहिए हौसला — न कोई बोझ उठाने वाला।',
+  'माफ़ी माँगना कमज़ोरी नहीं,\nयह उस इंसान की ताक़त है — जो सच जानता है।'
+];
+
+function buildDots(active){
+  for(let i=0;i<TOTAL;i++){
+    const el=document.getElementById('d'+i);
+    if(!el)continue;
+    el.innerHTML='';
+    for(let j=0;j<TOTAL;j++){
+      const d=document.createElement('div');
+      d.className='dot'+(j===active?' on':'');
+      el.appendChild(d);
+    }
+  }
+}
+
+function goTo(idx){
+  for(let i=0;i<TOTAL;i++){
+    const el=document.getElementById('p'+i);
+    if(el)el.classList.remove('active');
+  }
+  const t=document.getElementById('p'+idx);
+  if(t)t.classList.add('active');
+  buildDots(idx);
+  if(idx===6)startShayari();
+  if(idx===8)initBalloonGame();
+  if(idx===9)initWordGame();
+  window.scrollTo(0,0);
+}
+
+let shDone=false;
+function startShayari(){
+  if(shDone)return;shDone=true;
+  SHAYARI.forEach((s,i)=>{
+    const el=document.getElementById('sh'+(i+1));
+    el.textContent='';let ci=0;
+    setTimeout(()=>{
+      const t=setInterval(()=>{
+        if(ci<s.length){el.textContent+=s[ci];ci++;}
+        else clearInterval(t);
+      },38);
+    },i*2000);
+  });
+}
+
+function revealMsg(){
+  document.getElementById('rev-area').innerHTML=
+    '<div class="rmsg"><p>"Yeh website main ne tumhe impress karne ke liye nahi banayi. Main ne yeh isliye banayi kyunki main nahi chahta tha ki meri galti woh akhiri cheez ho jo tum mere baare mein yaad rakho."</p></div>';
+}
+
+function initBalloonGame(){
+  const emojis=['🎈','🎀','🌸','🌟','🎊','💙','🌺','⭐'];
+  const msgs=['Waah! 🎉','Mast! ✨','Sahi hai! 🌟','Superb! 🌸','Fantastic! 🎈','Brilliant! 💫','Zabardast! 🌺','Incredible! 🎊'];
+  let score=0,left=8;
+  const field=document.getElementById('balloon-field');
+  const bsc=document.getElementById('bscore');
+  const bl=document.getElementById('bleft');
+  const bmsg=document.getElementById('balloon-msg');
+  bsc.textContent='0';bl.textContent='8';bmsg.textContent='';
+  field.innerHTML='';
+  for(let i=0;i<8;i++){
+    const b=document.createElement('span');
+    b.className='balloon';
+    b.textContent=emojis[i];
+    b.style.animationDelay=(i*0.32)+'s';
+    b.onclick=function(){
+      if(b.dataset.p)return;
+      b.dataset.p='1';
+      b.style.transform='scale(0)';
+      b.style.opacity='0';
+      b.style.transition='all 0.35s';
+      score++;left--;
+      bsc.textContent=score;bl.textContent=left;
+      bmsg.textContent=msgs[score-1]||'';
+      if(left===0){
+        setTimeout(()=>{
+          bmsg.innerHTML='<strong style="font-size:16px;color:#1a6a2a">Sab phod diye! Mood full 100% khush! 🎊🌸🎉</strong>';
+        },400);
+      }
+    };
+    field.appendChild(b);
+  }
+}
+
+function initWordGame(){
+  const words=[
+    {w:'Khushi',h:true},{w:'Dukh',h:false},{w:'Umeed',h:true},{w:'Darr',h:false},
+    {w:'Pyaar',h:true},{w:'Nafrat',h:false},{w:'Safalta',h:true},{w:'Haar',h:false},
+    {w:'Taakat',h:true},{w:'Kamzori',h:false},{w:'Muskaan',h:true},{w:'Udaasi',h:false},
+    {w:'Hosla',h:true},{w:'Nirasha',h:false}
+  ];
+  const shuffled=words.sort(()=>Math.random()-0.5);
+  let mood=0;const selected=new Set();
+  const grid=document.getElementById('wgrid');
+  const mbar=document.getElementById('mbar');
+  const ml=document.getElementById('mlevel');
+  const wr=document.getElementById('word-result');
+  ml.textContent='0';mbar.style.width='0%';wr.textContent='';
+  grid.innerHTML='';
+  shuffled.forEach((item,i)=>{
+    const tile=document.createElement('div');
+    tile.className='word-tile '+(item.h?'happy':'sad');
+    tile.textContent=item.w;
+    tile.onclick=function(){
+      if(selected.has(i))return;selected.add(i);
+      if(item.h){
+        mood=Math.min(100,mood+16);
+        tile.className='word-tile sel-h';
+        wr.textContent='Bilkul sahi! Yeh word mood lift karta hai! ✨';
+        wr.style.color='#2a6a3a';
+      }else{
+        mood=Math.max(0,mood-8);
+        tile.className='word-tile sel-s';
+        wr.textContent='Yeh negative hai — positive chunno! 💪';
+        wr.style.color='#8a3030';
+      }
+      mbar.style.width=mood+'%';
+      ml.textContent=Math.round(mood);
+      if(mood>=90){wr.innerHTML='<strong style="color:#1a6a3a">Mood 100% Khush! Tum amazing ho! 🌺🎉🌸</strong>';}
+    };
+    grid.appendChild(tile);
+  });
+}
+
+/* ---- Canvas background: flowers, feathers, stars ---- */
+const canvas=document.getElementById('bg');
+const ctx=canvas.getContext('2d');
+let particles=[];
+
+function resize(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+}
+
+class Particle{
+  constructor(){this.reset();this.y=Math.random()*window.innerHeight;this.alpha=Math.random()*0.6;}
+  reset(){
+    this.x=Math.random()*canvas.width;
+    this.y=canvas.height+20;
+    this.type=Math.random()<0.33?'flower':Math.random()<0.5?'feather':'star';
+    this.size=this.type==='star'?2+Math.random()*4:7+Math.random()*14;
+    this.vx=(Math.random()-0.5)*0.7;
+    this.vy=-(0.35+Math.random()*0.8);
+    this.angle=Math.random()*Math.PI*2;
+    this.vAngle=(Math.random()-0.5)*0.03;
+    this.alpha=0;this.alphaDir=1;
+    this.twinkle=Math.random()*Math.PI*2;
+    const fc=['#ffb3c8','#ff8fab','#ffc8dd','#c9f0d8','#a8d8f0','#dbb3f0','#f9d8a8','#b8f0e8'];
+    const sc=['#f9e44a','#fff8c0','#ffe090','#ffd0f0','#e0f0ff'];
+    const lc=['#e8dcc8','#f0e8d8','#d8ccc0','#c8e8f0'];
+    this.color=this.type==='star'?sc[Math.floor(Math.random()*sc.length)]:
+               this.type==='flower'?fc[Math.floor(Math.random()*fc.length)]:
+               lc[Math.floor(Math.random()*lc.length)];
+  }
+  update(){
+    this.x+=this.vx;this.y+=this.vy;
+    this.angle+=this.vAngle;
+    this.alpha+=this.alphaDir*0.007;
+    if(this.alpha>0.8)this.alphaDir=-1;
+    if(this.alpha<0)this.reset();
+    if(this.type==='star')this.twinkle+=0.07;
+  }
+  draw(){
+    ctx.save();ctx.globalAlpha=this.alpha;
+    ctx.translate(this.x,this.y);ctx.rotate(this.angle);
+    if(this.type==='star'){
+      const tw=0.5+0.5*Math.sin(this.twinkle);
+      ctx.globalAlpha=this.alpha*tw;
+      drawStar(ctx,0,0,this.size,this.size*0.42,5,this.color);
+    }else if(this.type==='flower'){
+      drawFlower(ctx,0,0,this.size,this.color);
+    }else{
+      drawFeather(ctx,0,0,this.size,this.color);
+    }
+    ctx.restore();
+  }
+}
+
+function drawStar(c,x,y,r1,r2,pts,col){
+  c.beginPath();
+  for(let i=0;i<pts*2;i++){
+    const r=i%2===0?r1:r2;
+    const a=(i*Math.PI)/pts-Math.PI/2;
+    i===0?c.moveTo(x+r*Math.cos(a),y+r*Math.sin(a)):c.lineTo(x+r*Math.cos(a),y+r*Math.sin(a));
+  }
+  c.closePath();c.fillStyle=col;
+  c.shadowBlur=10;c.shadowColor=col;c.fill();c.shadowBlur=0;
+}
+
+function drawFlower(c,x,y,r,col){
+  c.fillStyle=col;
+  for(let i=0;i<5;i++){
+    const a=(i/5)*Math.PI*2;
+    c.beginPath();
+    c.ellipse(x+Math.cos(a)*r*0.55,y+Math.sin(a)*r*0.55,r*0.42,r*0.24,a,0,Math.PI*2);
+    c.fill();
+  }
+  c.beginPath();c.arc(x,y,r*0.28,0,Math.PI*2);
+  c.fillStyle='#fff8c0';c.fill();
+}
+
+function drawFeather(c,x,y,len,col){
+  c.strokeStyle=col;c.lineWidth=1.5;
+  c.beginPath();c.moveTo(0,-len/2);c.lineTo(0,len/2);c.stroke();
+  for(let i=-4;i<=4;i++){
+    const py=(i/4)*(len/2);
+    const px=Math.abs(i/4)*(len*0.38);
+    c.strokeStyle=col;c.lineWidth=0.8;
+    c.beginPath();c.moveTo(0,py);c.lineTo(px,py-len*0.08);c.stroke();
+    c.beginPath();c.moveTo(0,py);c.lineTo(-px,py-len*0.08);c.stroke();
+  }
+}
+
+for(let i=0;i<60;i++)particles.push(new Particle());
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw();});
+  requestAnimationFrame(animate);
+}
+
+resize();
+window.addEventListener('resize',resize);
+animate();
+buildDots(0);
+</script>
+</body>
+</html>
